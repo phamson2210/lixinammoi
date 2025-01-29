@@ -1,1 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lì Xì Online Vui Nhộn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
 
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            max-width: 500px;
+            width: 90%;
+            backdrop-filter: blur(10px);
+            position: relative;
+            border: 3px solid #ffeb3b;
+        }
+
+        h1 {
+            color: #ff6b6b;
+            text-shadow: 2px 2px #fff;
+            font-size: 2.5em;
+            margin: 0 0 30px 0;
+        }
+
+        .main-icon {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 8rem;
+            color: #ffd93d;
+            text-shadow: 3px 3px #ff6b6b;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .main-icon:hover {
+            transform: rotate(-15deg) scale(1.1);
+            color: #ff9a00;
+        }
+
+        .result {
+            font-size: 4em;
+            color: #4bae4f;
+            font-weight: bold;
+            margin: 30px 0;
+            display: none;
+            animation: jump 0.8s ease;
+        }
+
+        .bank-form {
+            display: none;
+            animation: slideIn 0.5s ease-out;
+            background: #fff9f9;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 2px dashed #ff6b6b;
+        }
+
+        .form-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: #ff6b6b;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffd93d;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-top: 15px;
+        }
+
+        @keyframes jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            .main-icon { font-size: 6rem; }
+            .result { font-size: 3em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐍 LÌ XÌ RẮN VÀNG 🧧</h1>
+        
+        <div class="main-icon" onclick="handleLuckyDraw()">
+            <i class="fas fa-gift"></i>
+        </div>
+             
+        <div id="result" class="result"></div>
+        
+        <form id="bankForm" class="bank-form">
+            <h3>🏦 Thông Tin Nhận Lì Xì</h3>
+            
+            <div class="form-group">
+                <label><i class="fas fa-university"></i> Tên Ngân Hàng</label>
+                <input type="text" class="form-input" required placeholder="VD: Vietcombank" name="bankName">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-credit-card"></i> Số Tài Khoản</label>
+                <input type="number" class="form-input" required placeholder="Nhập số tài khoản" name="accountNumber">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> Chủ Tài Khoản</label>
+                <input type="text" class="form-input" required placeholder="Tên chủ tài khoản" name="accountHolder">
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-coins"></i> Nhận Tiền Ngay
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzP4sDhhyAIVpJ0jo6u52OKCpGowuCCFYX7aKik0xbfAK2DbIdLv3ddOSM2Aie6ZHB2tQ/exec';
+        const amounts = [88, 168, 288, 388, 588, 888];
+        let isOpened = false;
+
+        async function handleLuckyDraw() {
+            if(isOpened) return;
+            
+            const icon = document.querySelector('.main-icon i');
+            const result = document.getElementById('result');
+            const bankForm = document.getElementById('bankForm');
+            
+            icon.classList.remove('fa-gift');
+            icon.classList.add('fa-envelope-open');
+            isOpened = true;
+
+            setTimeout(() => {
+                const randomAmount = amounts[Math.floor(Math.random() * amounts.length)];
+                result.textContent = `🎉 ${randomAmount}k 🎉`;
+                result.style.display = 'block';
+                
+                setTimeout(() => {
+                    bankForm.style.display = 'block';
+                    bankForm.style.animation = 'slideIn 0.5s ease-out';
+                }, 1000);
+            }, 800);
+        }
+
+        document.getElementById('bankForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = form.querySelector('button');
+            const originalText = submitBtn.innerHTML;
+
+            try {
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
+                submitBtn.disabled = true;
+
+                const formData = new FormData(form);
+                formData.append('timestamp', new Date().toLocaleString());
+
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error('Lỗi kết nối');
+                
+                alert('🎉 Thông tin đã được ghi nhận! Lì xì sẽ đến trong 5 phút!');
+                form.reset();
+                form.style.display = 'none';
+            } catch (error) {
+                alert('⚠️ Có lỗi xảy ra! Vui lòng thử lại sau.');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
